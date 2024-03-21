@@ -28,7 +28,7 @@ namespace Application.Activities
             {
                 var activity = await _context.Activities
                     .Include(a => a.Attendees).ThenInclude(u => u.AppUser)
-                    .FirstOrDefaultAsync(x => x.Id == request.Id);
+                    .SingleOrDefaultAsync(x => x.Id == request.Id);
 
                 if (activity == null) return null;
 
@@ -36,7 +36,7 @@ namespace Application.Activities
 
                 if (user == null) return null;
 
-                var hostUsername = activity.Attendees.FirstOrDefault(x => x.IsHost)?.AppUser?.UserName;
+                var hostUsername = activity.Attendees.FirstOrDefault(x => x.IsHost)?.AppUser.UserName;
 
                 var attendance = activity.Attendees.FirstOrDefault(x => x.AppUser.UserName == user.UserName);
 
